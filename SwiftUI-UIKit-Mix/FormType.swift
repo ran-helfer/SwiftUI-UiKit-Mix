@@ -7,13 +7,21 @@
 
 import Foundation
 
-enum FormType {
+enum FormType: CaseIterable {
     case general
     case stroke
     case pulmonaryEmoblism
     case aortic
     case cryptoGenic
 
+    static var cases: [FormType] = [
+        FormType.general,
+        FormType.stroke,
+        FormType.pulmonaryEmoblism,
+        FormType.aortic,
+        FormType.cryptoGenic,
+    ]
+    
     func description() -> String {
         switch self {
         case .general:

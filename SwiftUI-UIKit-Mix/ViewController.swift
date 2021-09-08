@@ -49,8 +49,15 @@ class ViewController: UIViewController {
 extension ViewController: FormTypeHeaderViewDelegate {
     func headerWasClicked() {
         let hostingViewController = UIHostingViewController<FormSelectionView>()
-        hostingViewController.hostView  = UIHostingController(rootView: FormSelectionView())
+        hostingViewController.hostView  = UIHostingController(rootView: FormSelectionView(delegate: self))
         navigationController?.pushViewController(hostingViewController, animated: true)
     }
-    
+}
+
+
+extension ViewController: FormSelectionViewDelegate {
+    func selectedForm(_ form: FormType) {
+        navigationController?.popViewController(animated: true)
+        print("\(form)")
+    }
 }

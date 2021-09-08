@@ -13,7 +13,7 @@ protocol FormTypeHeaderViewDelegate: AnyObject {
 
 struct FormTypeHeaderView: View {
     
-    @State private var selectedFormType = FormType.stroke
+    @State private var selectedFormType = FormType.cryptoGenic
     unowned var delegate: FormTypeHeaderViewDelegate?
     
     var body: some View {
@@ -36,7 +36,6 @@ struct FormTypeHeaderView: View {
     }
     
     func buttonWasClicked() {
-        selectedFormType.move()
         delegate?.headerWasClicked()
     }
 }
