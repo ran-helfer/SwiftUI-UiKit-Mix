@@ -13,7 +13,7 @@ protocol FormTypeHeaderViewDelegate: AnyObject {
 
 struct FormTypeHeaderView: View {
     
-    @State private var selectedFormType = FormType.cryptoGenic
+    @EnvironmentObject var selectedFormType: CurrentForm
     unowned var delegate: FormTypeHeaderViewDelegate?
     
     var body: some View {
@@ -22,12 +22,12 @@ struct FormTypeHeaderView: View {
             buttonWasClicked()
         }, label: {
             HStack {
-                Image(selectedFormType.imageName())
+                Image(selectedFormType.form.imageName())
                 .frame(width: 40, height: 40, alignment: .center)
                 .clipShape(Circle())
                 .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
                 
-                Text(selectedFormType.description())
+                Text(selectedFormType.form.description())
                 .padding(8)
                 
                 Spacer()

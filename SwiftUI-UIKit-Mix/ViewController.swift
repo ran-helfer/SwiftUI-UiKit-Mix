@@ -8,12 +8,18 @@
 import UIKit
 import SwiftUI
 
+// Our observable object class
+class CurrentForm: ObservableObject {
+    @Published var form: FormType = .general
+}
+
+
 class ViewController: UIViewController {
 
     /*
         The purpose of this excersize is to demonstrate how a swiftUIContainer can be integrated into UIView along with sending messages to the host controller
      */
-    
+    @StateObject var currentForm = CurrentForm()
     
     @IBOutlet weak var swiftUIContainer: UIView!
     @IBOutlet weak var uikitView: UIView!
@@ -21,8 +27,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostView = UIHostingController(rootView: FormTypeHeaderView(delegate: self))
-        setSwiftUIView(hostView: hostView)
+        let headerView = FormTypeHeaderView(delegate: self)
+        headerView.environmentObject(currentForm)
+        let hostView = UIHostingController(rootView: headerView)
+        setSwiftUIView(hostView: hostView as! UIHostingController<FormTypeHeaderView>)
     }
 
     func setSwiftUIView(hostView: UIHostingController<FormTypeHeaderView>) {
@@ -59,5 +67,6 @@ extension ViewController: FormSelectionViewDelegate {
     func selectedForm(_ form: FormType) {
         navigationController?.popViewController(animated: true)
         print("\(form)")
+        currentForm.form = form
     }
 }
