@@ -22,13 +22,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let hostView = UIHostingController(rootView: FormTypeHeaderView(delegate: self))
+        setSwiftUIView(hostView: hostView)
+    }
+
+    func setSwiftUIView(hostView: UIHostingController<FormTypeHeaderView>) {
+        
+        /* Guard here in case we do not need the view */
+        
+        let hostView = UIHostingController(rootView: FormTypeHeaderView(delegate: self))
 
         addChild(hostView)
         swiftUIContainer.addSubview(hostView.view)
-        setConstraints(hostView: hostView)
-    }
-
-    func setConstraints(hostView: UIHostingController<FormTypeHeaderView>) {
+        
         hostView.view.translatesAutoresizingMaskIntoConstraints = false
         
         hostView.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -38,12 +43,14 @@ class ViewController: UIViewController {
         /* We want the host bottom to be the top of UIKit */
         hostView.view.bottomAnchor.constraint(equalTo: uikitView.topAnchor).isActive = true
     }
-
-    
 }
+
 
 extension ViewController: FormTypeHeaderViewDelegate {
     func headerWasClicked() {
-
+        let hostingViewController = UIHostingViewController<FormSelectionView>()
+        hostingViewController.hostView  = UIHostingController(rootView: FormSelectionView())
+        navigationController?.pushViewController(hostingViewController, animated: true)
     }
+    
 }
