@@ -3,7 +3,7 @@
 //  SwiftUI-UIKit-Mix
 //
 //  Created by Ran Helfer on 08/09/2021.
-// 
+//
 
 import SwiftUI
 
@@ -49,10 +49,28 @@ struct FormTypeHeaderView: View {
         Button(action: {
             buttonWasClicked()
         }, label: {
-            Text(selectedFormType.description())
+            HStack {
+                
+                Image(selectedFormType.description())
+                .clipShape(Circle())
+                .padding(8)
+                
+                Text(selectedFormType.description())
+                .padding(8)
+                
+                Spacer()
+            }
         })
     }
     
+//    Form {
+//        Section {
+//            Picker("Payment Type", selection: $paymentType) {
+//                ForEach(0 ..< Self.paymentTypes.count) { index in
+//                    Text(Self.paymentTypes[index])
+//                }
+//            }
+//
     func buttonWasClicked() {
         selectedFormType.move()
         delegate?.headerWasClicked()
