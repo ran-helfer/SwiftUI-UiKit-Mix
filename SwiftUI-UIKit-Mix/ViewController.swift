@@ -44,6 +44,6 @@ class ViewController: UIViewController {
 
 extension ViewController: FormTypeHeaderViewDelegate {
     func headerWasClicked() {
-        print("will push")
+
     }
 }

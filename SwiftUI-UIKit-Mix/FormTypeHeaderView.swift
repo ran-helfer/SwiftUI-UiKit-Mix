@@ -12,29 +12,56 @@ protocol FormTypeHeaderViewDelegate: AnyObject {
 }
 
 enum FormType {
+    case general
     case stroke
-    case covid
-    case lungs
-    
+    case pulmonaryEmoblism
+    case aortic
+    case cryptoGenic
+
     func description() -> String {
         switch self {
+        case .general:
+            return "General"
         case .stroke:
-            return "Stroke"
-        case .covid:
-            return "Covid"
-        case .lungs:
-            return "Lungs"
+            return "Stroke From"
+        case .pulmonaryEmoblism:
+            return "Pulmonary Embolism"
+        case .aortic:
+            return "Aortic Disease"
+        case .cryptoGenic:
+            return "CryptoGenic Stroke"
+ 
+        }
+    }
+    
+    func imageName() -> String {
+        switch self {
+        case .general:
+            return "1"
+        case .stroke:
+            return "2"
+        case .pulmonaryEmoblism:
+            return "3"
+        case .aortic:
+            return "4"
+        case .cryptoGenic:
+            return "5"
+ 
         }
     }
     
     mutating func move() {
         switch self {
-        case .stroke:
-            self = .covid
-        case .covid:
-            self = .lungs
-        case .lungs:
+        case .general:
             self = .stroke
+        case .stroke:
+            self = .pulmonaryEmoblism
+        case .pulmonaryEmoblism:
+            self = .general
+        case .aortic:
+            self = .cryptoGenic
+        case .cryptoGenic:
+            self = .general
         }
     }
 }
@@ -50,10 +77,10 @@ struct FormTypeHeaderView: View {
             buttonWasClicked()
         }, label: {
             HStack {
-                
-                Image(selectedFormType.description())
+                Image(selectedFormType.imageName())
+                .frame(width: 40, height: 40, alignment: .center)
                 .clipShape(Circle())
-                .padding(8)
+                .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
                 
                 Text(selectedFormType.description())
                 .padding(8)
@@ -63,14 +90,6 @@ struct FormTypeHeaderView: View {
         })
     }
     
-//    Form {
-//        Section {
-//            Picker("Payment Type", selection: $paymentType) {
-//                ForEach(0 ..< Self.paymentTypes.count) { index in
-//                    Text(Self.paymentTypes[index])
-//                }
-//            }
-//
     func buttonWasClicked() {
         selectedFormType.move()
         delegate?.headerWasClicked()
