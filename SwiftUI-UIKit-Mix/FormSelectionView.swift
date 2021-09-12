@@ -37,7 +37,6 @@ struct FormSelectionView: View {
             }
         }.padding(EdgeInsets(top: 32, leading: 16, bottom: 0, trailing: 0))
         Spacer()
-
     }
 }
 

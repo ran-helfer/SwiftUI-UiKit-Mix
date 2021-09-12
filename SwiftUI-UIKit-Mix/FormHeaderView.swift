@@ -11,9 +11,13 @@ protocol FormTypeHeaderViewDelegate: AnyObject {
     func headerWasClicked()
 }
 
+class SelectedFormType: ObservableObject {
+    @Published var formType = FormType.cryptoGenic
+}
+
 struct FormTypeHeaderView: View {
     
-    @State private var selectedFormType = FormType.cryptoGenic
+    @ObservedObject var form : SelectedFormType
     unowned var delegate: FormTypeHeaderViewDelegate?
     
     var body: some View {
@@ -22,12 +26,12 @@ struct FormTypeHeaderView: View {
             buttonWasClicked()
         }, label: {
             HStack {
-                Image(selectedFormType.imageName())
+                Image(form.formType.imageName())
                 .frame(width: 40, height: 40, alignment: .center)
                 .clipShape(Circle())
                 .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
                 
-                Text(selectedFormType.description())
+                Text(form.formType.description())
                 .padding(8)
                 
                 Spacer()
@@ -42,6 +46,6 @@ struct FormTypeHeaderView: View {
 
 struct FormTypeHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        FormTypeHeaderView()
+        FormTypeHeaderView(form: SelectedFormType(), delegate: nil)
     }
 }

@@ -17,11 +17,13 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var swiftUIContainer: UIView!
     @IBOutlet weak var uikitView: UIView!
-
+    var form = SelectedFormType()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hostView = UIHostingController(rootView: FormTypeHeaderView(delegate: self))
+        let view = FormTypeHeaderView(form: form, delegate: self)
+        let hostView = UIHostingController(rootView: view)
         setSwiftUIView(hostView: hostView)
     }
 
@@ -29,8 +31,8 @@ class ViewController: UIViewController {
         
         /* Guard here in case we do not need the view */
         
-        let hostView = UIHostingController(rootView: FormTypeHeaderView(delegate: self))
-
+        let hostView = UIHostingController(rootView: FormTypeHeaderView(form: form,
+                                                                        delegate: self))
         addChild(hostView)
         swiftUIContainer.addSubview(hostView.view)
         
@@ -58,6 +60,6 @@ extension ViewController: FormTypeHeaderViewDelegate {
 extension ViewController: FormSelectionViewDelegate {
     func selectedForm(_ form: FormType) {
         navigationController?.popViewController(animated: true)
-        print("\(form)")
+        self.form.formType = form
     }
 }
